@@ -13,7 +13,7 @@ shift_xi = eval(input('shift_xi = '))
 
 def recursion_relationship(recursion_index, recursion_coefficients, shifted_energy, potential_shift):
     """
-    :param recursion_index: n, integer
+    :param recursion_index: n+2, integer
     :param recursion_coefficients: a_n-2, a_n-1, a_n, list of floats
     :param shifted_energy: λ, float
     :param potential_shift: ±ξ0, float
@@ -21,7 +21,9 @@ def recursion_relationship(recursion_index, recursion_coefficients, shifted_ener
     """
     new_coefficient = (- 2 * shifted_energy * recursion_coefficients[2] + recursion_coefficients[0] +
                          2 * potential_shift * recursion_coefficients[1]) /\
-                      ((recursion_index + 1)*(recursion_index + 2))
+                      ((recursion_index - 1)*(recursion_index))
+
+    # new_coefficient = -recursion_coefficients[2]/(recursion_index+2)
     return new_coefficient
 
 
@@ -40,12 +42,12 @@ def wave_function(reduced_position, maximum_coefficient, starting_coefficients, 
     return np.polynomial.polynomial.polyval(reduced_position, coefficients)
 
 
-def indicial_equations(eigenvalue):
-    a_2 = -eigenvalue*a_0
+def indicial_equations(eigenvalue, coefficients):
+    a_2 = -eigenvalue*coefficients[0]
     if shift_xi >= 0:
-        a_3 = -(eigenvalue*a_1 - shift_xi*a_0)/3
+        a_3 = -(eigenvalue*coefficients[1] - shift_xi*coefficients[0])/3
     if shift_xi < 0:
-        a_3 = -(eigenvalue*a_1 + shift_xi*a_0)/3
+        a_3 = -(eigenvalue*coefficients[1] + shift_xi*coefficients[0])/3
 
     #if shift_xi == 0:
     #    a_3 = 'this is a harmonic oscillator'
@@ -102,28 +104,32 @@ if __name__ == '__main__':
     .
     .
     """
-    a_0 = 0
-    a_1 = 1
+    a_0 = 1
+    a_1 = 0
     # eigenvalue should be 0.5, (bell curve)
     # then set a_0 = 0, a_1 = 1, and search for another value
-    eigenvalue = 1.5   # (epsilon - shift_xi^2/2)
-    shift_xi = 0
+    eigenvalue = 2.498601  # (epsilon - shift_xi^2/2)
+    shift_xi = 1
     epsilon = eigenvalue + shift_xi**2/2
-    print(f'a_2 = {indicial_equations(eigenvalue)[0]},'
-          f'a_3 = {indicial_equations(eigenvalue)[1]}')
+    print(f'a_2 = {indicial_equations(eigenvalue, [a_0, a_1])[0]},'
+          f'a_3 = {indicial_equations(eigenvalue, [a_0, a_1])[1]}')
     # print(f' a_terms = {recursion_relation(indicial_equations(eigenvalue), eigenvalue)}')
     #print(plot_expansion(recursion_relation(indicial_equations(eigenvalue), eigenvalue)))
     initial_coefficients = [a_0, a_1]
-    for coefficient in indicial_equations(eigenvalue):
+    for coefficient in indicial_equations(eigenvalue, initial_coefficients):
         initial_coefficients.append(coefficient)
+    print(initial_coefficients)
+    print(recursion_relationship(4, initial_coefficients, eigenvalue, shift_xi))
 
     reduced_positions = np.linspace(-10, 10, num=1_000)
-    maximum_index = 99
+    maximum_index = 10_000
+    #
     psi_values = wave_function(reduced_positions, maximum_index, initial_coefficients, [eigenvalue, shift_xi])
-
+    #
     plt.plot(reduced_positions, psi_values)
-    # plt.xlim([-10, 10])
-    # plt.ylim([-1, 1.5])
+    plt.xlim([-10, 10])
+    plt.ylim([-1.5, 1.5])
+    plt.axhline()
     plt.show()
 
     # print(epsilon)
