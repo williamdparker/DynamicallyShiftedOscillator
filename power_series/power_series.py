@@ -108,7 +108,8 @@ if __name__ == '__main__':
     a_1 = 0
     # eigenvalue should be 0.5, (bell curve)
     # then set a_0 = 0, a_1 = 1, and search for another value
-    eigenvalue = 2.498601  # (epsilon - shift_xi^2/2)
+    eigenvalue = 0.3094688  # (epsilon - shift_xi^2/2) 0.3094688	0.73422037	1.49997346	2.19740304	2.99866356
+
     shift_xi = 1
     epsilon = eigenvalue + shift_xi**2/2
     print(f'a_2 = {indicial_equations(eigenvalue, [a_0, a_1])[0]},'
@@ -130,6 +131,6 @@ if __name__ == '__main__':
     plt.xlim([-10, 10])
     plt.ylim([-1.5, 1.5])
     plt.axhline()
+    plt.savefig("eigenvalue_1")
     plt.show()
-
     # print(epsilon)
