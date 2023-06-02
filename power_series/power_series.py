@@ -108,10 +108,14 @@ if __name__ == '__main__':
     a_1 = 0
     # eigenvalue should be 0.5, (bell curve)
     # then set a_0 = 0, a_1 = 1, and search for another value
-    eigenvalue = 0.3094688  # (epsilon - shift_xi^2/2) 0.3094688	0.73422037	1.49997346	2.19740304	2.99866356
+    # eigenvalue =   # (epsilon - shift_xi^2/2) 0.3094688	0.73422037	1.49997346	2.19740304	2.99866356
 
     shift_xi = 1
-    epsilon = eigenvalue + shift_xi**2/2
+    eigenvalues_list = []
+    for epsilon in np.arange(0, 1.5, 100):
+    #epsilon = 0.500  # 1.500 n=1 shift=1 2.998601
+        eigenvalue = epsilon - shift_xi**2/2
+        eigenvalues_list.append(eigenvalue)
     print(f'a_2 = {indicial_equations(eigenvalue, [a_0, a_1])[0]},'
           f'a_3 = {indicial_equations(eigenvalue, [a_0, a_1])[1]}')
     # print(f' a_terms = {recursion_relation(indicial_equations(eigenvalue), eigenvalue)}')
@@ -129,8 +133,8 @@ if __name__ == '__main__':
     #
     plt.plot(reduced_positions, psi_values)
     plt.xlim([-10, 10])
-    plt.ylim([-1.5, 1.5])
+    plt.ylim([-3.5, 3.5])
     plt.axhline()
-    plt.savefig("eigenvalue_1")
+    # plt.savefig("eigenvalue_1")
     plt.show()
     # print(epsilon)
