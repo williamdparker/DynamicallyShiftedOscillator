@@ -48,10 +48,10 @@ def indicial_equations(eigenvalue, coefficients):
 if __name__ == '__main__':
     a_0 = 1
     a_1 = 0
-    shift_xi = 1
+    shift_xi = -1
     # parkers epsilon: 0.3094688	0.73422037	1.49997346	2.19740304	2.99866356
 
-    epsilon = 4.609 # 1.500 n=1 shift=1 2.998601 # 6.27841
+    epsilon = # 1.500 n=1 shift=1 2.998601 # 6.27841
     # 0.309459 first state (bell curve blown up at the end) note due to no trunkation, positive xi blows up exponentially
 
     # 1.500000 second state (end behavior again messed up dueto no trunkation)
@@ -98,7 +98,7 @@ if __name__ == '__main__':
     plt.ylim([-3.5, 3.5])
     plt.axhline()
     plt.axvline(1)
-    plt.savefig("eigenvalue_5")
+    ##plt.savefig("eigenvalue_5")
     plt.show()
     # print(epsilon)
 
