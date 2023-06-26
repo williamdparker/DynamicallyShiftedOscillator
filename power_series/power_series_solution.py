@@ -25,9 +25,9 @@ def recurence_relation_pos(starting_coefficients, shifted_xi, shifted_eigenvalue
     :param recurence_index: starting at n = 2, thus getting a4, integer
     :return: new_coefficient: a_n+2
     """
-    new_coefficient = starting_coefficients[0] + 2 * shifted_xi * starting_coefficients[1] \
-                      - 2 * starting_coefficients[2] * shifted_eigenvalue / \
-                      (recurence_index * (recurence_index - 1))
+    numerator = starting_coefficients[0] + 2 * shifted_xi * starting_coefficients[1] - 2 * starting_coefficients[2] * shifted_eigenvalue
+    denominator = recurence_index * (recurence_index - 1)
+    new_coefficient = numerator/denominator
     return new_coefficient
 
 
@@ -67,9 +67,9 @@ def recurence_relation_neg(starting_coefficients, shifted_xi, shifted_eigenvalue
     :param recurence_index: starting at n = 2, thus getting a4, integer
     :return: new_coefficient: a_n+2
     """
-    new_coefficient = starting_coefficients[0] - 2 * shifted_xi * starting_coefficients[1] \
-                      - 2 * starting_coefficients[2] * shifted_eigenvalue / \
-                      (recurence_index * (recurence_index - 1))
+    numerator = starting_coefficients[0] - 2 * shifted_xi * starting_coefficients[1] - 2 * starting_coefficients[2] * shifted_eigenvalue
+    denominator = (recurence_index * (recurence_index - 1))
+    new_coefficient = numerator/denominator
     return new_coefficient
 
 
@@ -89,8 +89,8 @@ def indicial_equations_neg(a0, a1, shifted_xi, shifted_eigenvalue):
 if __name__ == "__main__":
     a0 = 1
     a1 = 0
-    shifted_xi = 0
-    epsilon = 0.5
+    shifted_xi = 1
+    epsilon = 1.5
     shifted_eigenvalue = epsilon - shifted_xi ** 2 / 2
 
     starting_coefficients_pos = indicial_equations_pos(a0, a1, shifted_xi, shifted_eigenvalue)

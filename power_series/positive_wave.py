@@ -22,14 +22,13 @@ def recurence_relation_pos(starting_coefficients, shifted_xi, shifted_eigenvalue
     :param starting_coefficients: [a_n-2, a_n-1, a_n] list of floats
     :param shifted_xi: ξ0, float
     :param shifted_eigenvalue: λ, float
-    :param recurence_index: starting at n = 2, thus getting a4, integer
+    :param recurence_index: 4 starting at n = 2, thus getting a4, integer
     :return: new_coefficient: a_n+2
     """
-    new_coefficient = starting_coefficients[0] + 2 * shifted_xi * starting_coefficients[1] \
-                      - 2 * starting_coefficients[2] * shifted_eigenvalue / \
-                      (recurence_index * (recurence_index - 1))
+    numerator = starting_coefficients[0] + 2 * shifted_xi * starting_coefficients[1] - 2 * starting_coefficients[2] * shifted_eigenvalue
+    denominator = recurence_index * (recurence_index - 1)
+    new_coefficient = numerator/denominator
     return new_coefficient
-
 
 def indicial_equations_pos(a0, a1, shifted_xi, shifted_eigenvalue):
     """
@@ -47,14 +46,16 @@ def indicial_equations_pos(a0, a1, shifted_xi, shifted_eigenvalue):
 if __name__ == "__main__":
     a0 = 1
     a1 = 0
-    shifted_xi = 0
-    epsilon = 0.5
-    shifted_eigenvalue = epsilon - shifted_xi**2/2
+    shifted_xi = 1
+    epsilon = 1.5
+    shifted_eigenvalue = epsilon - shifted_xi**2/2  # 1.5 - 0.5 = 1.0
 
     #print(type(indicial_equations_pos(a0, a1, shifted_xi, shifted_eigenvalue)))
     starting_coefficients = indicial_equations_pos(a0, a1, shifted_xi, shifted_eigenvalue)
-    #print(type(starting_coefficients))
-
+                                                    # (1, 0, 1, 1)
+    print(starting_coefficients) # good -> [1, 0, -1, 1/3]
+    print(recurence_relation_pos(starting_coefficients, shifted_xi, shifted_eigenvalue, 4)) # -> .25
+    # weird but good now
     number_of_positions = 10_001  # x values kinda
     xi_array = np.linspace(0, 10, num=number_of_positions)
     ##
