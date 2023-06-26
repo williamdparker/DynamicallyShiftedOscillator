@@ -89,8 +89,11 @@ def indicial_equations_neg(a0, a1, shifted_xi, shifted_eigenvalue):
 if __name__ == "__main__":
     a0 = 1
     a1 = 0
-    shifted_xi = 1
-    epsilon = 15 # 1.5
+    shifted_xi = 0
+    epsilon = 0.5 # 1.5
+    #1st_unshifted: 0.5
+    #1st_shifted: 1.5
+
     shifted_eigenvalue = epsilon - shifted_xi ** 2 / 2
 
     starting_coefficients_pos = indicial_equations_pos(a0, a1, shifted_xi, shifted_eigenvalue)
@@ -111,6 +114,6 @@ if __name__ == "__main__":
     plt.ylim([-3.5, 3.5])
     plt.axhline()
     plt.axvline(0)
-    plt.savefig("15_test_for_epsilon")
+    #plt.savefig("1st_unshifted_eigenvalue")
     plt.show()
 
