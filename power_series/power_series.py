@@ -12,8 +12,8 @@ def recursion_relationship(recursion_index, recursion_coefficients, shifted_ener
     :return new_coefficient: a_n+2
     """
     new_coefficient = (- 2 * shifted_energy * recursion_coefficients[2] + recursion_coefficients[0] +
-                       2 * sign *  potential_shift * recursion_coefficients[1]) / \
-                      ((recursion_index - 1) * (recursion_index))
+                       2 * sign * potential_shift * recursion_coefficients[1]) / \
+                      ((recursion_index - 1) * recursion_index)
 
     # new_coefficient = -recursion_coefficients[2]/(recursion_index+2)
     return new_coefficient  # a4
@@ -22,6 +22,7 @@ def recursion_relationship(recursion_index, recursion_coefficients, shifted_ener
 def wave_function(reduced_position, maximum_coefficient, starting_coefficients, simulation_parameters,
                   position_sign):
     """
+    :param position_sign: if statement
     :param reduced_position: ξ
     :param maximum_coefficient: n_max
     :param starting_coefficients: a0, a1, a2. a3
@@ -29,8 +30,6 @@ def wave_function(reduced_position, maximum_coefficient, starting_coefficients, 
     :return: ψ(ξ)
     """
     coefficients = starting_coefficients
-
-
 
     for index in range(len(starting_coefficients), maximum_coefficient + 1):
         coefficients.append(recursion_relationship(index, coefficients[index - 4:index - 1],
@@ -57,7 +56,7 @@ if __name__ == '__main__':
     shift_xi = -1
     # parkers epsilon: 0.3094688	0.73422037	1.49997346	2.19740304	2.99866356
 
-    epsilon = 1.500  # 1.500 n=1 shift=1 2.998601 # 6.27841
+    epsilon = 5.04344  # 1.500 n=1 shift=1 2.998601 # 6.27841
 
     # 0.309459 first state (bell curve blown up at the end) note due to no trunkation, positive xi blows up exponentially
 
@@ -111,7 +110,7 @@ if __name__ == '__main__':
                                         negative_initial_coefficients, [eigenvalue, shift_xi],
                                         -1)
     positive_psi_values = wave_function(positive_reduced_positions, maximum_index,
-                                        positive_initial_coefficients,[eigenvalue, shift_xi],
+                                        positive_initial_coefficients, [eigenvalue, shift_xi],
                                         1)
     #
     plt.plot(negative_reduced_positions, negative_psi_values)
@@ -119,6 +118,7 @@ if __name__ == '__main__':
     plt.xlim([-10, 10])
     plt.ylim([-3.5, 3.5])
     plt.axhline()
-    plt.axvline(1)
+    plt.axvline(0)
+    plt.savefig("eigenvalue_1")
     plt.show()
     # print(epsilon)
