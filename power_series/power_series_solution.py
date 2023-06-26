@@ -111,6 +111,6 @@ if __name__ == "__main__":
     plt.ylim([-3.5, 3.5])
     plt.axhline()
     plt.axvline(0)
-    plt.savefig("epsilon=15_test")
+    plt.savefig("15_test_for_epsilon")
     plt.show()
 
