@@ -2,13 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def positive_wave_function(starting_coefficients, xi_array):
+def positive_wave_function(starting_coefficients, xi_array, maximum_index=10_000):
     """
     :param starting_coefficients: [a0, a1, a2, a3] list of floats
     :param xi_array: ξ array of values
     :return:
     """
-    maximum_index = 10_000  # y values kinda
+    # maximum_index = 10_000  # y values kinda
     coefficients = starting_coefficients
     for index in range(len(starting_coefficients), maximum_index + 1):
         coefficients.append(
@@ -44,13 +44,13 @@ def indicial_equations_pos(a0, a1, shifted_xi, shifted_eigenvalue):
     return [a0, a1, a2, a3]
 
 
-def negative_wave_function(starting_coefficients, xi_array):
+def negative_wave_function(starting_coefficients, xi_array, maximum_index=10_000):
     """
     :param starting_coefficients: [a0, a1, a2, a3] list of floats
     :param xi_array: ξ array of values
     :return:
     """
-    maximum_index = 10_000  # y values kinda
+    # maximum_index = 10_000  # y values kinda
     coefficients = starting_coefficients
     for index in range(len(starting_coefficients), maximum_index + 1):
         coefficients.append(
@@ -87,10 +87,26 @@ def indicial_equations_neg(a0, a1, shifted_xi, shifted_eigenvalue):
 
 
 if __name__ == "__main__":
-    a0 = 1
-    a1 = 0
-    shifted_xi = 0
-    epsilon = 0.5 # 1.5
+    number_of_series_terms = 100
+
+    shifted_xi = 1
+    # n = 1
+    epsilon = 3.0371
+    a0 = 0
+    a1 = 1
+
+    #shifted_xi = -1
+    # # n = 3
+    # epsilon = 2.197
+    # a0 = 0
+    # a1 = 1
+
+    # n = 4
+    # epsilon = 2.9987
+    # a0 = 1
+    # a1 = 0
+
+    # epsilon = 0.7342 # 1.5
     #1st_unshifted: 0.5
     #1st_shifted: 1.5
 
@@ -104,8 +120,10 @@ if __name__ == "__main__":
     xi_array_pos = np.linspace(0, 10, num=number_of_positions)
     xi_array_neg = np.linspace(-10, 0, num=number_of_positions)
 
-    positive_psi_values = positive_wave_function(starting_coefficients_pos, xi_array_pos)
-    negative_psi_values = negative_wave_function(starting_coefficients_neg, xi_array_neg)
+    positive_psi_values = positive_wave_function(starting_coefficients_pos, xi_array_pos,
+                                                 maximum_index=number_of_series_terms)
+    negative_psi_values = negative_wave_function(starting_coefficients_neg, xi_array_neg,
+                                                 maximum_index=number_of_series_terms)
 
     plt.plot(xi_array_pos, positive_psi_values)
     plt.plot(xi_array_neg, negative_psi_values)

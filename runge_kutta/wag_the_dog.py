@@ -36,12 +36,15 @@ def wag_the_dog(potential_name, adjustable_coefficient_values, length_scale, pos
         plt.legend()
         potential_positions = np.linspace(-3*length_scale, 3*length_scale)
         # potential_positions = positions
-        draw_dynamically_shifted_oscillator_potential(potential_positions, dynamical_shift, potential_width=length_scale)
+        # draw_dynamically_shifted_oscillator_potential(potential_positions, dynamical_shift, potential_width=length_scale)
 
     else:
         print('No potential named {} supported'.format(potential_name))
         print('Try one from this list: {}'.format([potential for potential in supported_potentials]))
         return
+
+    plt.xlim([-10, 10])
+    plt.ylim([-2, 2])
 
     # Formatting for all plots
     #    Draw psi = 0 line

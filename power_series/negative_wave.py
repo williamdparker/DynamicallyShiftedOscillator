@@ -48,7 +48,7 @@ def indicial_equations_neg(a0, a1, shifted_xi, shifted_eigenvalue):
 if __name__ == "__main__":
     a0 = 1
     a1 = 0
-    shifted_xi = 1
+    shifted_xi = -1
     epsilon = 1.5
     shifted_eigenvalue = epsilon - shifted_xi**2/2
 

@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 
 
 def solve_discrete_eigenproblem(potential_name, length_scale, positions, reduced_action_quantum=1, mass=1,
-                                starting_eigenvalue=0, number_of_eigenvalues=3, additional_parameters=[]):
+                                starting_eigenvalue=0, number_of_eigenvalues=3, additional_parameters=[],
+                                write_file=False):
 
     # assuming equally spaced positions as grid
     number_of_grid_points = len(positions)
@@ -19,6 +20,10 @@ def solve_discrete_eigenproblem(potential_name, length_scale, positions, reduced
         potential_grid = np.piecewise(positions, [positions < 0, positions >= 0],
                                       [lambda x: 0.5 * force_constant * (x + dynamical_shift) ** 2,
                                        lambda x: 0.5 * force_constant * (x - dynamical_shift) ** 2])
+        #potential_grid = np.piecewise(positions, [positions < 0, positions >= 0],
+        #                              [lambda x: force_constant * (x + dynamical_shift) ** 2,
+        #                               lambda x: force_constant * (x - dynamical_shift) ** 2])
+
 
     diagonal_values = np.diagflat(2 + potential_grid/kinetic_energy_scale)
     hamiltonian_matrix = kinetic_energy_scale*(-upper_ones + diagonal_values - lower_ones)
@@ -29,19 +34,27 @@ def solve_discrete_eigenproblem(potential_name, length_scale, positions, reduced
                                                             starting_eigenvalue+number_of_eigenvalues]
     selected_eigenvalue_eigenvectors = eigenvectors[:, selected_eigenvalue_indices]
     selected_eigenvalue_eigenvectors = selected_eigenvalue_eigenvectors.transpose()
+    selected_eigenvalues = []
+    for index in selected_eigenvalue_indices:
+        selected_eigenvalues.append(eigenvalues[index])
+    print(selected_eigenvalues)
 
     for index, eigenvector in enumerate(selected_eigenvalue_eigenvectors):
         if np.sum(eigenvector) < 0:
             eigenvector = -1 * eigenvector
         eigenvector = eigenvector / np.linalg.norm(eigenvector)
-        plt.plot(positions, eigenvector, label=f'{index+starting_eigenvalue}')
-
-    axis_limits = [plt.xlim(), plt.ylim()]
-    axis_ranges = np.diff(axis_limits, axis=1)
-    text_position = [axis_limits[0][0] + 0.05*axis_ranges[0][0], axis_limits[1][0] + 0.9*axis_ranges[1][0]]
-    plt.text(text_position[0], text_position[1], rf'$\xi_0 = {dynamical_shift}$')
-    plt.legend(title=r'$n$')
-    plt.show()
+        plt.subplots()
+        plt.plot(positions, eigenvector, label=f'{index+starting_eigenvalue}'+3*' '+f'{selected_eigenvalues[index]:.3f}')
+        axis_limits = [plt.xlim(), plt.ylim()]
+        axis_ranges = np.diff(axis_limits, axis=1)
+        text_position = [axis_limits[0][0] + 0.05*axis_ranges[0][0], axis_limits[1][0] + 0.9*axis_ranges[1][0]]
+        plt.text(text_position[0], text_position[1], rf'$\xi_0 = {dynamical_shift}$')
+        plt.legend(title=r'   $n$'+3*' '+r'$\epsilon$')
+        if write_file:
+            output_file_name = 'DSOWaveFunction'+str(dynamical_shift)+'DiscreteMatrixn' + str(index) + '.png'
+            plt.savefig(output_file_name)
     print(f'{number_of_grid_points:6}\t{np.sort(eigenvalues)[:5]}')
+    if not write_file:
+        plt.show()
 
     return eigenvalues, eigenvectors

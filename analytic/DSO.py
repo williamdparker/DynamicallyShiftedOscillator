@@ -4,10 +4,10 @@ from numpy import *
 import matplotlib.pyplot as mp
 
 a0 = 1
-a1 = 0
-x0 = -0.5
-xmin = 0
-xmax = 4.0
+a1 = 1
+x0 = 1
+xmin = -10
+xmax = 10
 
 
 def f(x):
@@ -15,7 +15,7 @@ def f(x):
     return f
 
 
-x = linspace(xmin, xmax, 100)
+x = linspace(xmin, xmax, 1_000)
 mp.plot(x, f(x))
 
 
@@ -24,6 +24,6 @@ def f(x):
     return f
 
 
-x = linspace(xmin, -xmax, 100)
+x = linspace(xmin, -xmax, 1_000)
 mp.plot(x, f(x))
 mp.show()
